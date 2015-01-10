@@ -3,9 +3,20 @@
 var app = angular.module('app', ['ngRoute', 'ngResource', 'ui.bootstrap.pagination']);
 
 app.constant('baseServiceUrl', 'http://softuni-ads.azurewebsites.net');
-app.constant('pageSize', 2);
+app.constant('pageSize', 3);
 
-app.config(function ($routeProvider) {
+app.config(function($routeProvider) {
+
+    var routePermissions = {
+        'isLogged': function(authenticationService, notificationService, $location) {
+            if (authenticationService.isLogged()) {
+                return true;
+            } else {
+                notificationService.showInfo('You should be logged in to view this page.');
+                $location.path('/');
+            }
+        }
+    }
 
     $routeProvider.when('/', {
         templateUrl: 'templates/home.html',
@@ -22,8 +33,14 @@ app.config(function ($routeProvider) {
         controller: 'RegisterController'
     });
 
-    $routeProvider.otherwise(
-        { redirectTo: '/' }
-    );
+    $routeProvider.when('/user/home', {
+        templateUrl: 'templates/main.html',
+        controller: 'MainController',
+        resolve: routePermissions
+    });
+
+    $routeProvider.otherwise({
+        redirectTo: '/'
+    });
 
 });

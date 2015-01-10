@@ -1,7 +1,7 @@
 'use strict';
 
 app.factory('authService',
-    function ($http, baseServiceUrl) {
+    function($http, baseServiceUrl) {
         return {
             login: function(userData, success, error) {
                 var request = {
@@ -31,32 +31,32 @@ app.factory('authService',
                 delete sessionStorage['currentUser'];
             },
 
-            getCurrentUser : function() {
+            getCurrentUser: function() {
                 var userObject = sessionStorage['currentUser'];
                 if (userObject) {
                     return JSON.parse(sessionStorage['currentUser']);
                 }
             },
 
-            isAnonymous : function() {
+            isAnonymous: function() {
                 return sessionStorage['currentUser'] == undefined;
             },
 
-            isLoggedIn : function() {
+            isLoggedIn: function() {
                 return sessionStorage['currentUser'] != undefined;
             },
 
-            isNormalUser : function() {
+            isNormalUser: function() {
                 var currentUser = this.getCurrentUser();
                 return (currentUser != undefined) && (!currentUser.isAdmin);
             },
 
-            isAdmin : function() {
+            isAdmin: function() {
                 var currentUser = this.getCurrentUser();
                 return (currentUser != undefined) && (currentUser.isAdmin);
             },
 
-            getAuthHeaders : function() {
+            getAuthHeaders: function() {
                 var headers = {};
                 var currentUser = this.getCurrentUser();
                 if (currentUser) {
