@@ -1,0 +1,5 @@
+<aside class="aside left-aside col-md-2">
+	<div ng-include="'templates/nav.html'"></div>
+	<div ng-if="location.path() == '/user/ads'" ng-include="'templates/statusFilters.html'"></div>
+</aside>
+<section ng-include="'templates/userAdsList.html'" class="col-md-9"></section>

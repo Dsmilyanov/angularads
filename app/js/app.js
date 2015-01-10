@@ -9,7 +9,7 @@ app.config(function($routeProvider) {
 
     var routePermissions = {
         'isLogged': function(authenticationService, notificationService, $location) {
-            if (authenticationService.isLogged()) {
+            if (authenticationService.isLogged() == true) {
                 return true;
             } else {
                 notificationService.showInfo('You should be logged in to view this page.');
@@ -36,6 +36,12 @@ app.config(function($routeProvider) {
     $routeProvider.when('/user/home', {
         templateUrl: 'templates/main.html',
         controller: 'MainController',
+        resolve: routePermissions
+    });
+
+    $routeProvider.when('/user/ads', {
+        templateUrl: 'templates/user/ads.html',
+        controller: 'UserController',
         resolve: routePermissions
     });
 
