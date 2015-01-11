@@ -1,0 +1,27 @@
+<div class="box">
+    <h2>Confirm deleting ad?</h2>
+    <hr class="hrStyle">
+    <div>
+        <div class="pull-left"><h2>{{ad.title}}</h2></div>
+        <div class="pull-right">{{ad.date|date:'dd-MMM-yyyy'}}</div>
+        <div class="clearfix"></div>
+        <div ng-if='ad.imageDataUrl'>
+            <strong>Image:</strong><img class="ad-image" ng-src="{{ad.imageDataUrl}}" />
+        </div>
+        <div class="textDiv">
+            {{ad.text}}
+        </div>
+        <div class="infoDiv">
+            <div style="margin: 10px;">
+                <h3>Town: </h3><span class="spanText2">{{ad.townName}}</span>
+            </div>
+            <div style="margin: 10px;">
+                <h3>Category: </h3><span class="spanText2">{{ad.categoryName}}</span>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-danger deactivateBut" style="width: 40%" ng-click="deleteAd(ad.id)">Delete</button>
+            <button class="btn btn-primary deactivateBut" style="width: 40%" ng-click="cancel()">Cancel</button>
+        </div>
+    </div>
+</div>

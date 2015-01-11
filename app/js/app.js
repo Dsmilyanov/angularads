@@ -51,11 +51,17 @@ app.config(function($routeProvider) {
         resolve: routePermissions
     });
 
+    $routeProvider.when('/user/delete/:id', {
+        templateUrl: 'templates/user/delete-ad.html',
+        controller: 'DeleteAdController'
+    });
+
     $routeProvider.when('/user/profile', {
         templateUrl: 'templates/user-profile.html',
         controller: 'UserProfileController',
         resolve: routePermissions
     });
+
 
     $routeProvider.otherwise({
         redirectTo: '/'
