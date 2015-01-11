@@ -1,0 +1,82 @@
+<aside class="aside left-aside col-md-2">
+	<div ng-include="'templates/nav.html'"></div>
+</aside>
+<section class="col-md-10">
+<form class="form-horizontal col-md-5">
+	<fieldset>
+		<legend>Edit Profile</legend>
+		<div class="form-group">
+			<div class="col-md-12">
+				<label for="inputName" class="control-label">Name:</label>
+			</div>
+			<div class="col-md-12">
+				<input type="text" ng-model="userData.name" class="form-control" id="inputName" placeholder="Name">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<label for="inputEmail" class="control-label">Email:</label>
+			</div>
+			<div class="col-md-12">
+				<input type="text" ng-model="userData.email" class="form-control" id="inputEmail" placeholder="Email">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<label for="inputPhone" class="control-label">Phone:</label>
+			</div>
+			<div class="col-md-12">
+				<input type="tel" ng-model="userData.phoneNumber" class="form-control" id="inputPhone" placeholder="Phone">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<label for="selectTown" class="control-label">Towns</label>
+			</div>
+			<div class="col-md-12">
+				<select ng-model="userData.townId" class="form-control" id="selectTown">
+					<option value="null">Choose town</option>
+					<option ng-repeat="town in towns" value="{{town.id}}">{{town.name}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<a href ng-click="updateProfile(userData)" class="btn btn-primary col-md-offset-1">Update</a>
+			<a href="#/user/home" class="btn btn-danger col-md-offset-2">Cancel</a>
+		</div>
+	</fieldset>
+</form>
+<form class="form-horizontal col-md-5 col-md-offset-1">
+	<fieldset>
+		<legend>Change Password</legend>
+		<div class="form-group">
+			<div class="col-md-12">
+				<label for="inputOldPass" class="control-label">Old Password:</label>
+			</div>
+			<div class="col-md-12">
+				<input type="password" ng-model="userPassData.oldPassword" class="form-control" id="inputOldPass" placeholder="Old Password">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<label for="inputNewPass" class="control-label">New Password:</label>
+			</div>
+			<div class="col-md-12">
+				<input type="password" ng-model="userPassData.newPassword" class="form-control" id="inputNewPass" placeholder="New Password">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12">
+				<label for="inputConfirmPass" class="control-label">Confirm New Password:</label>
+			</div>
+			<div class="col-md-12">
+				<input type="password" ng-model="userPassData.confirmPassword" class="form-control" id="inputConfirmPass" placeholder="Repeat Password">
+			</div>
+		</div>
+		<div class="form-group">
+			<a href ng-click="changePassword(userPassData)" class="btn btn-primary col-md-offset-1">Change Password</a>
+			<a href="#/user/home" class="btn btn-danger col-md-offset-1">Cancel</a>
+		</div>
+	</fieldset>
+</form>
+</section>
