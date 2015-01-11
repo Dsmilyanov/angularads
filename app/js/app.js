@@ -63,7 +63,7 @@ app.config(function($routeProvider) {
 
     $routeProvider.when('/user/profile', {
         templateUrl: 'templates/user-profile.html',
-        controller: 'UserProfileController',
+        controller: 'EditProfileController',
         resolve: routePermissions
     });
 

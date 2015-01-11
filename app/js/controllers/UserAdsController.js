@@ -1,10 +1,10 @@
 'use strict';
 
 app.controller('UserAdsController',
-   function ($scope, $routeParams, $location, userService, notifyService, pageSize) {
+    function($scope, $routeParams, $location, userService, notifyService, pageSize) {
         $scope.adsParams = {
-            'startPage' : 1,
-            'pageSize' : pageSize,
+            'startPage': 1,
+            'pageSize': pageSize,
             'Status': $routeParams.id
         };
         if ($routeParams.id == 'all') {
@@ -52,5 +52,5 @@ app.controller('UserAdsController',
                 }
             );
         };
-   }
+    }
 );
