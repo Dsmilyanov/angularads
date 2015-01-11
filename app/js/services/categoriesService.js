@@ -12,6 +12,6 @@ app.factory('categoriesService', function($resource, baseUrl) {
     }
 
     return {
-        getCategories: getAllCategories
+        getCategories: getAllCategories;
     }
 });

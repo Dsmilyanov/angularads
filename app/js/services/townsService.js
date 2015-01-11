@@ -12,6 +12,6 @@ app.factory('townsService', function($resource, baseUrl) {
     }
 
     return {
-        getTowns: getAllTowns
+        getTowns: getAllTowns;
     }
 });

@@ -23,7 +23,7 @@ app.config(function($routeProvider) {
         controller: 'HomeController'
     });
 
-    $routeProvider.when('/login', {
+    $routeProvider.when('/login', { 
         templateUrl: 'templates/login.html',
         controller: 'LoginController'
     });
@@ -45,8 +45,20 @@ app.config(function($routeProvider) {
         resolve: routePermissions
     });
 
-    $routeProvider.otherwise({
-        redirectTo: '/'
+    $routeProvider.when('/user/ads/publish', {
+        templateUrl: 'templates/publish-ad.html',
+        controller: 'PublishAdController',
+        resolve: routePermissions
     });
+
+    $routeProvider.when('/user/profile', {
+        templateUrl: 'templates/user-profile.html',
+        controller: 'UserProfileController',
+        resolve: routePermissions
+    });
+
+    // $routeProvider.otherwise({
+    //     redirectTo: '/'
+    // });
 
 });
