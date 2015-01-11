@@ -1,0 +1,64 @@
+<div class="box">
+    <h2>Edit ad?</h2>
+    <hr class="hrStyle">
+    <div>
+        <form>
+            <div class="pull-left" style="width: 70%">
+                <h2>Title: </h2>
+                <input class="selectInEdit" style="width: 70%" type="text"  value="{{ad.title}}" ng-model="ad.title" />
+
+            </div>
+            <div class="pull-right">{{ad.date|date:'dd-MMM-yyyy'}}</div>
+            <div class="clearfix"></div>
+
+            <div class="pull-left" style="width: 70%;margin-top: 2%;display: table">
+                <h2 style="display: table-cell;vertical-align: middle">Text: </h2>    <textarea style="width: 100%;max-width: 100%;height: 100px" ng-model="ad.text">{{ad.text}}</textarea>
+            </div>
+            <div class="clearfix"></div>
+            <div>
+                <p>
+                    <label for="newImage">Image:</label>
+                    <input type="file" id="newImage"
+                           onchange="angular.element(this).scope().fileSelected(this)" />
+                <div class="image-box">
+                    <p>Image Preview</p>
+                </div>
+                </p>
+
+                <p>
+                    <button ng-click="deleteImage()">Delete</button>
+                </p>
+
+                <div ng-if='ad.imageDataUrl'>
+                    <h3>Old image:</h3>
+                    <strong>Image:</strong><img class="ad-image" ng-src="{{ad.imageDataUrl}}" />
+                </div>
+            </div>
+
+            <br />
+            <div class="infoDiv">
+                <div style="margin: 10px;width: 60%">
+                    <h3>Town: </h3>
+                    <select class="selectInEdit" ng-model="ad.townId">
+                        <option value="" style="display: none"></option>
+                        <option ng-repeat="town in towns" value="{{town.id}}" ng-if="ad.townName == town.name" selected="selected">{{town.name}}</option>
+                        <option ng-repeat="town in towns" value="{{town.id}}" ng-if="ad.townName != town.name" >{{town.name}}</option>
+                    </select>
+                </div>
+                <div style="margin: 10px;width: 60%">
+                    <h3>Category: </h3>
+                    <select class="selectInEdit" ng-model="ad.categoryId">
+                        <option value="" style="display: none"></option>
+                        <option ng-repeat="cat in categories" value="{{cat.id}}" ng-if="ad.categoryName == cat.name" selected="selected">{{cat.name}}</option>
+                        <option ng-repeat="cat in categories" value="{{cat.id}}" ng-if="ad.categoryName != cat.name" >{{cat.name}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button class="btn btn-danger deactivateBut" style="width: 40%" ng-click="editAd(ad)">Edit</button>
+                <button class="btn btn-primary deactivateBut" style="width: 40%" ng-click="cancel()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
