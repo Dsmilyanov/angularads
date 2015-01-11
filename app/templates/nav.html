@@ -1,0 +1,21 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">Navigation</h3>
+	</div>
+	<div class="panel-body">
+		<a href="#">Home</a>
+		<div ng-if="authService.isUser()">
+		<ul>
+			<li>
+				<a href="#/user/ads">My Ads</a>
+			</li>
+			<li>
+				<a href="#/user/ads/publish">Publish New Ad</a>
+			</li>
+			<li>
+				<a href="#/user/profile">Edit Profile</a>
+			</li>
+		</ul>			
+		</div>
+	</div>
+</div>
