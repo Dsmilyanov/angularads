@@ -57,8 +57,8 @@ app.config(function($routeProvider) {
         resolve: routePermissions
     });
 
-    // $routeProvider.otherwise({
-    //     redirectTo: '/'
-    // });
+    $routeProvider.otherwise({
+        redirectTo: '/'
+    });
 
 });
