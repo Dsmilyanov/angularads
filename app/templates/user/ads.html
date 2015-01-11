@@ -1,5 +1,24 @@
-<aside class="aside left-aside col-md-2">
-	<div ng-include="'templates/nav.html'"></div>
-	<div ng-if="location.path() == '/user/ads'" ng-include="'templates/statusFilters.html'"></div>
-</aside>
-<section ng-include="'templates/userAdsList.html'" class="col-md-9"></section>
+<pagination total-items="ads.numItems" ng-model="adsParams.startPage"
+  items-per-page="adsParams.pageSize" ng-change="reloadUserAds()"
+  max-size="9" boundary-links="true">
+</pagination>
+
+<ul class="ads">
+    <li ng-repeat="ad in ads.ads" class="box" data-id="{{ad.id}}">
+        <h1>{{ad.title}}</h1>
+        <div><strong>Date:</strong> {{ad.date | date:'dd-MMM-yyyy'}}</div>
+        <div ng-if='ad.imageDataUrl'>
+            <strong>Image:</strong><img class="ad-image" ng-src="{{ad.imageDataUrl}}" />
+        </div>
+        <div><strong>Text:</strong> {{ad.text}}</div>
+        <div><strong>Status:</strong> {{ad.status}}</div>
+        <button ng-if="ad.status == 'WaitingApproval' || ad.status == 'Published'" ng-click="deactivateAd(ad.id)">Deactivate</button>
+        <button ng-if="ad.status == 'Inactive'"><a href="#/user/edit/{{ad.id}}">Edit</a></button>
+        <button ng-if="ad.status == 'Inactive'" ng-click="publishAgainAd(ad.id)">Publish Again</button>
+        <button ng-if="ad.status == 'Inactive'"><a href="#/user/delete/{{ad.id}}">Delete</a></button>
+    </li>
+</ul>
+
+<div ng-if="ads.ads.length==0" class="box no-data">
+    No ads found.
+</div>

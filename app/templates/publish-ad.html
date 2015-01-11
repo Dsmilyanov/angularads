@@ -1,56 +1,40 @@
-<section class="col-md-6 col-md-offset-1">
-	<form class="form-horizontal">
-		<fieldset>
-			<legend>Publish New Ad</legend>
-			<div class="row">
-				<div class="form-group col-md-8">
-					<label for="inputTitle" class="col-md-2 control-label">Title:</label>
-					<div class="col-md-10">
-						<input type="text" class="form-control" ng-model="adData.title" id="inputTitle" placeholder="Title">
-					</div>
-				</div>
-				<div class="form-group col-md-8">
-					<label for="inputText" class="col-md-2 control-label">Text:</label>
-					<div class="col-md-10">
-						<textarea class="form-control" ng-model="adData.text" rows="4" id="inputText" placeholder="Description"></textarea>
-					</div>
-				</div>
-				<img src="" alt ="no image" class="ad-image" ng-src="{{adData.imageDataUrl}}">
-			</div>
-			<div class="row">
-				<div class="form-group col-md-10">
-					<label for="inputImage" class="col-md-2 control-label">Image:</label>
-					<div class="col-md-10">
-						<input type="file" class="form-control" id="inputImage" placeholder="Name">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-			<div class="form-group col-md-10">
-					<label for="selectCategory" class="col-md-3 control-label">Category:</label>
-					<div class="col-md-9">
-						<select ng-model="adData.categoryId" class="form-control" id="selectCategory">
-							<option value="null">Choose category</option>
-							<option ng-repeat="category in categories" value="{{category.id}}">{{category.name}}</option>
-						</select>
-					</div>
-				</div>
-				<div class="form-group col-md-10">
-					<label for="selectTown" class="col-md-3 control-label">Town:</label>
-					<div class="col-md-9">
-						<select ng-model="adData.townId" class="form-control" id="selectTown">
-							<option value="null">Choose town</option>
-							<option ng-repeat="town in towns" value="{{town.id}}">{{town.name}}</option>
-						</select>
-					</div>
-				</div>
-			</div>
-			<div class="form-group">
-				<div class="col-lg-10 col-lg-offset-2">
-					<button ng-click="publish(adData)" class="btn btn-primary col-md-offset-2">Publish</button>
-					<a href="#/user/home" class="btn btn-danger col-md-offset-2">Cancel</a>
-				</div>
-			</div>
-		</fieldset>
-	</form>
-</section>
+<div class="box">
+  <h2>Publish New Ad</h2>
+  <p>
+      <label for="title">Title:</label>
+      <input type="text" id="title" ng-model="adData.title" required />
+  </p>
+
+  <p>
+      <label for="text">Text:</label>
+      <input type="text" id="text" ng-model="adData.text" required />
+  </p>
+
+  <p>
+      <label for="category">Category:</label>
+      <select id="category" ng-model="adData.categoryId">
+          <option value="null">(None)</option>
+          <option ng-repeat="c in categories" value="{{c.id}}">{{c.name}}</option>
+      </select>
+  </p>
+  <p>
+      <label for="town">Town:</label>
+      <select id="town" ng-model="adData.townId">
+          <option value="null">(None)</option>
+          <option ng-repeat="town in towns" 
+              value="{{town.id}}">{{town.name}}</option>
+      </select>
+  </p>
+  <p>
+    <label for="image">Image:</label>
+    <input type="file" id="image"
+           onchange="angular.element(this).scope().fileSelected(this)" />
+    <div class="image-box">
+        <p>Image Preview</p>
+    </div>
+  </p>
+  <p>
+      <a ng-click="publishAd(adData)" class="button">Publish</a>
+      <a href="#/user/ads" class="button">Cancel</a>
+  <p>
+</div>

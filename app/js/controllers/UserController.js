@@ -1,45 +1,56 @@
-app.controller('UserController', function($scope, $location, pageSize, pageService,
-    adsService, notifyService, authService) {
-    pageService.setPageName('My Ads');
+'use strict';
 
-    $scope.adsRequestParams = {
-        startPage: 1,
-        pageSize: pageSize
-    }
+app.controller('UserAdsController',
+   function ($scope, $routeParams, $location, userService, notifyService, pageSize) {
+        $scope.adsParams = {
+            'startPage' : 1,
+            'pageSize' : pageSize,
+            'Status': $routeParams.id
+        };
+        if ($routeParams.id == 'all') {
+            $scope.adsParams.Status = null;
+        }
 
-    $scope.getAds = function(requestParams) {
-        adsService.getUserAds(requestParams)
-            .then(function(data) {
-                $scope.userAdsData = data;
-            });
-    }
+        $scope.reloadUserAds = function() {
+            userService.getUserAds(
+                $scope.adsParams,
+                function success(data) {
+                    $scope.ads = data;
+                },
+                function error(err) {
+                    notifyService.showError("Cannot load user ads", err);
+                }
+            );
+        };
 
-    $scope.showPage = function() {
-        $scope.getAds($scope.adsRequestParams);
-    }
+        $scope.reloadUserAds();
 
-    $scope.filterByStatus = function(status) {
-        $scope.adsRequestParams.status = status;
-        $scope.getAds($scope.adsRequestParams);
-    }
+        $scope.deactivateAd = function(adId) {
+            userService.deactivateAd(
+                adId,
+                function success(data) {
+                    notifyService.showInfo('Successfully deactivated ad');
+                    $scope.reloadUserAds();
+                    //$route.reload();
+                },
+                function error(err) {
+                    notifyService.showError("There is a error", err);
+                }
+            );
+        };
 
-    $scope.deactivateAd = function(adId) {
-        adsService.deactivate(adId)
-            .then(function(successData) {
-                notifyService.showSuccess('Ad deactivated successfully.');
-            }, function(error) {
-                notifyService.showError(error.data);
-            })
-    }
-
-    $scope.republishAd = function(adId) {
-        adsService.republish(adId)
-            .then(function(successData) {
-                notifyService.showSuccess('Ad re-submitted for approval. Once approved, it will be published.');
-            }, function(error) {
-                notifyService.showError(error.data);
-            })
-    }
-
-    $scope.getAds($scope.adsRequestParams);
-});
+        $scope.publishAgainAd = function(adId) {
+            userService.publishAgainAd(
+                adId,
+                function success(data) {
+                    notifyService.showInfo('Successfully Publish ad');
+                    $scope.reloadUserAds();
+                    //$route.reload();
+                },
+                function error(err) {
+                    notifyService.showError("There is a error", err);
+                }
+            );
+        };
+   }
+);

@@ -41,7 +41,7 @@ app.config(function($routeProvider) {
 
     $routeProvider.when('/user/ads', {
         templateUrl: 'templates/user/ads.html',
-        controller: 'UserController',
+        controller: 'UserAdsController',
         resolve: routePermissions
     });
 
