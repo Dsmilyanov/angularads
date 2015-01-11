@@ -1,60 +1,79 @@
-app.factory('authenticationService', function($resource, baseUrl){
-    var registerUrl = baseUrl + '/user/register',
-        loginUrl = baseUrl + '/user/login';
+'use strict';
 
-    var userRegistrationService =
-        $resource(registerUrl, null,
-            {update: {method: 'PUT'}
-        }),
-        userLoginService = 
-        $resource(loginUrl, null,
-            {update: {method: 'PUT'}
-        });
+app.factory('authService',
+    function ($http, baseServiceUrl, $location) {
+        return {
+            login: function(userData, success, error) {
+                var request = {
+                    method: 'POST',
+                    url: baseServiceUrl + '/api/user/login',
+                    data: userData
+                };
+                $http(request).success(function(data) {
+                    sessionStorage['currentUser'] = JSON.stringify(data);
+                    success(data);
+                }).error(error);
+            },
 
-    function registerUser(userData) {
-        return userRegistrationService.save(userData).$promise;
-    }
+            register: function(userData, success, error) {
+                var request = {
+                    method: 'POST',
+                    url: baseServiceUrl + '/api/user/register',
+                    data: userData
+                };
+                $http(request).success(function(data) {
+                    sessionStorage['currentUser'] = JSON.stringify(data);
+                    success(data);
+                }).error(error);
+            },
 
-    function loginUser(userData) {
-        return userLoginService.save(userData).$promise;
-    }
+            logout: function() {
+                delete sessionStorage['currentUser'];
+            },
 
-    function logOutUser() {
-        delete sessionStorage['currentUser'];
-    }
+            getCurrentUser : function() {
+                var userObject = sessionStorage['currentUser'];
+                if (userObject) {
+                    return JSON.parse(sessionStorage['currentUser']);
+                }
+            },
 
-    function isLogged() {
-        return sessionStorage['currentUser'] != undefined;
-    }
+            isAnonymous : function() {
+                return sessionStorage['currentUser'] == undefined;
+            },
 
-    function getUser() {
-        var userData = sessionStorage['currentUser'];
-        if (userData) {
-            return JSON.parse(sessionStorage['currentUser']);
+            isLoggedIn : function() {
+                return sessionStorage['currentUser'] != undefined;
+            },
+
+            isNormalUser : function() {
+                var currentUser = this.getCurrentUser();
+                return (currentUser != undefined) && (!currentUser.isAdmin);
+            },
+
+            isAdmin : function() {
+                var currentUser = this.getCurrentUser();
+                return (currentUser != undefined) && (currentUser.isAdmin);
+            },
+
+            isUserInUserAds : function() {
+                var currentUser = this.getCurrentUser();
+                var path = $location.path();
+                var wantedPath = "/user/ads";
+                var isInUserAds = path.indexOf(wantedPath) !== -1;
+                var wantedAdminPath = '/admin/home';
+                var isInAdminAds = path.indexOf(wantedAdminPath) !== -1;
+                return ((currentUser != undefined) && isInUserAds) || isInAdminAds;
+            },
+
+            getAuthHeaders : function() {
+                var headers = {};
+                var currentUser = this.getCurrentUser();
+                if (currentUser) {
+                    headers['Authorization'] = 'Bearer ' + currentUser.access_token;
+                }
+                return headers;
+            }
         }
     }
-
-    function isNormalUser() {
-        return this.isLogged() && !this.getUser().isAdmin;
-    }
-
-    function getHeaders() {
-        var headers = {},
-            currentUser = this.getUser();
-        if (currentUser) {
-            headers['Authorization'] = 'Bearer ' + currentUser.access_token;
-        }
-
-        return headers;
-    }
-
-    return {
-        register: registerUser,
-        login: loginUser,
-        logout: logOutUser,
-        isLogged: isLogged,
-        getUser: getUser,
-        isUser: isNormalUser,
-        getHeaders: getHeaders
-    }
-});
+);

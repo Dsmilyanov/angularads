@@ -8,11 +8,11 @@ app.constant('pageSize', 3);
 app.config(function($routeProvider) {
 
     var routePermissions = {
-        'isLogged': function(authenticationService, notificationService, $location) {
-            if (authenticationService.isLogged() == true) {
+        'isLogged': function(authService, notifyService, $location) {
+            if (authService.isLoggedIn() == true) {
                 return true;
             } else {
-                notificationService.showInfo('You should be logged in to view this page.');
+                notifyService.showInfo('You should be logged in to view this page.');
                 $location.path('/');
             }
         }

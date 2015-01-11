@@ -1,5 +1,5 @@
 app.controller('UserController', function($scope, $location, pageSize, pageService,
-    adsService, notificationService) {
+    adsService, notifyService, authService) {
     pageService.setPageName('My Ads');
 
     $scope.adsRequestParams = {
@@ -26,18 +26,18 @@ app.controller('UserController', function($scope, $location, pageSize, pageServi
     $scope.deactivateAd = function(adId) {
         adsService.deactivate(adId)
             .then(function(successData) {
-                notificationService.showSuccess('Ad deactivated successfully.');
+                notifyService.showSuccess('Ad deactivated successfully.');
             }, function(error) {
-                notificationService.showError(error.data);
+                notifyService.showError(error.data);
             })
     }
 
     $scope.republishAd = function(adId) {
         adsService.republish(adId)
             .then(function(successData) {
-                notificationService.showSuccess('Ad re-submitted for approval. Once approved, it will be published.');
+                notifyService.showSuccess('Ad re-submitted for approval. Once approved, it will be published.');
             }, function(error) {
-                notificationService.showError(error.data);
+                notifyService.showError(error.data);
             })
     }
 

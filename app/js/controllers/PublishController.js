@@ -1,17 +1,37 @@
-app.controller('PublishAdController', function($scope, $location, pageService, authenticationService,
-    adsService, notificationService, categoriesService, townsService) {
-    pageService.setPageName('Publish New Ad');
-    $scope.categories = categoriesService.getCategories();
-    $scope.towns = townsService.getTowns();
-    $scope.adData = {};
+'use strict';
 
-    $scope.publish = function(adData) {
-        adsService.create(adData)
-            .then(function(successData) {
-                notificationService.showSuccess('Advertisement submitted for approval. Once approved, it will be published.');
-                $location.path('/user/home');
-            }, function(error) {
-                notificationService.showError(error.data);
-            });
+app.controller('PublishAdController',
+    function ($scope, $location, townsService, categoriesService,
+            userService, notifyService) {
+        $scope.adData = {townId: null, categoryId: null};
+        $scope.categories = categoriesService.getCategories();
+        $scope.towns = townsService.getTowns();
+        $scope.adData.imageDataUrl = '';
+        $scope.publishAd = function(adData) {
+            userService.createNewAd(adData,
+                function success() {
+                    notifyService.showInfo('Advertisement submitted for approval. Once approved, it will be published');
+                    $location.path("/user/ads");
+                },
+                function error(err) {
+                    notifyService.showError('There is a problem with publishing ad', err);
+                }
+            );
+        };
+
+        $scope.fileSelected = function(fileInputField) {
+            //delete $scope.adData.imageDataUrl;
+            var file = fileInputField.files[0];
+            if (file.type.match(/image\/.*/)) {
+                var reader = new FileReader();
+                reader.onload = function() {
+                    $scope.adData.imageDataUrl = reader.result;
+                    $(".image-box").html("<img src='" + reader.result + "'>");
+                };
+                reader.readAsDataURL(file);
+            } else {
+                $(".image-box").html("<p>File type not supported!</p>");
+            }
+        };
     }
-});
+);
